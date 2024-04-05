@@ -10,23 +10,27 @@ on:
     - cron: '0 0 * * *'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    # Como en el paso de "Commit and Push Changes" debemos subir al repositorio el JSON que genera el script de Python se deben de dar permisos de escribir (ESTO LO DA LA DOCUMENTACIÓN)
-    permissions: 
-      contents: write
-    
-    steps: 
-      - name: Checkout Repository
-        # Hacemos un checkout de mi repositorio utlizando un action ya hecho
-        uses: actions/checkout@v4
+    job_id:
+        runs-on: 'ubuntu-latest'
+        permissions:
+            contents: 'read'
+            id-token: 'write'
       
-      - name: Install Node.js
-        # Instalamos Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-
-      - run: npm install
-      - run: npm test
+        steps:
+          - uses: 'actions/checkout@v4'
+      
+          - id: 'auth'
+            uses: 'google-github-actions/auth@v2'
+            with:
+              workload_identity_provider: 'projects/123456789/locations/global/workloadIdentityPools/my-pool/providers/my-provider'
+              service_account: 'my-service-account@my-project.iam.gserviceaccount.com'
+      
+          - id: 'deploy'
+            uses: 'google-github-actions/deploy-cloud-functions@v2'
+            with:
+              name: 'my-function'
+              runtime: 'nodejs20'
+      
+          # Example of using the output
+          - id: 'test'
+            run: 'curl "${{ steps.deploy.outputs.url }}"'
