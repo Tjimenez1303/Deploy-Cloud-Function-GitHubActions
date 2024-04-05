@@ -1,1 +1,32 @@
+name: Stats
 
+on:
+  # Cada vez que se haga un push a la rama main se ejecutará el workflow
+  # push: 
+  #   branches: [ main ]
+  # 
+  schedule:
+    # Cada vez que sea la medianoche se ejecutará el workflow || minuto hora dia mes dia_semana
+    - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # Como en el paso de "Commit and Push Changes" debemos subir al repositorio el JSON que genera el script de Python se deben de dar permisos de escribir (ESTO LO DA LA DOCUMENTACIÓN)
+    permissions: 
+      contents: write
+    
+    steps: 
+      - name: Checkout Repository
+        # Hacemos un checkout de mi repositorio utlizando un action ya hecho
+        uses: actions/checkout@v4
+      
+      - name: Install Node.js
+        # Instalamos Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - run: npm install
+      - run: npm test
