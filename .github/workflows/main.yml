@@ -18,5 +18,6 @@ jobs:
       - name: 'Authorization GCP'
         uses: 'google-github-actions/auth@v2'
         with:
+          project_id: 'api-ocr-purchase-order'
           workload_identity_provider: 'projects/462962855097/locations/global/workloadIdentityPools/github/providers/my-repo'
       
