@@ -1,0 +1,37 @@
+name: build-and-deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+    - uses: 'actions/checkout@v4'
+    - run: ls
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+
+    - name: Debug GCP credentials
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
+      run: |
+        echo "$GOOGLE_APPLICATION_CREDENTIALS" > credentials.json
+
+    - name: 'Set up Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v2'
+      with:
+        version: '>= 363.0.0'
+    - name: 'Use gcloud CLI'
+      run: 'gcloud info' 
+    - name: Install Python dependencies
+      run: |
+        pip install -r requirements.txt
+    - name: 'Deploy a gen 2 cloud function'
+      run: 'gcloud functions deploy test-function --gen2 --runtime=python310 --region=asia-south1 --trigger-http --entry-point=handle --memory=256MB --timeout=60s'
