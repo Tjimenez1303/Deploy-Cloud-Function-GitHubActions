@@ -27,4 +27,4 @@ jobs:
         with:
           name: 'myFunction'
           runtime: 'nodejs20'
-          entry_point: 'myFunction'
+          entry_point: 'myFunctionVS'
