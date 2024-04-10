@@ -1,7 +1,7 @@
 // Define tu función
-function myFunction(req, res) {
+function myFunctionVS(req, res) {
   console.log("Hola mundo desde GitHubAction V2")
 }
 
 // Exporta la función como el punto de entrada
-exports.myFunction = myFunction;
+exports.myFunctionVS = myFunctionVS;
