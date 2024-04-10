@@ -1,7 +1,5 @@
-// Define tu función
-function myFunctionVS(req, res) {
-  console.log("Hola mundo desde GitHubAction V2")
-}
+const functions = require('@google-cloud/functions-framework');
 
-// Exporta la función como el punto de entrada
-exports.myFunctionVS = myFunctionVS;
+functions.http('helloHttp', (req, res) => {
+  res.send(`Hello ${req.query.name || req.body.name || 'World'}!`);
+});
