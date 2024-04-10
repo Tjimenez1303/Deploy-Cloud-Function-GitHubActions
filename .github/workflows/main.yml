@@ -5,11 +5,11 @@ on:
     branches: ["main"]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
-      id-token: write
+      contents: 'read'
+      id-token: 'write'
 
     steps:
       - name: 'Checkout repo'
@@ -18,6 +18,5 @@ jobs:
       - name: 'Authorization GCP'
         uses: 'google-github-actions/auth@v2'
         with:
-          project_id: 'api-ocr-purchase-order'
-          workload_identity_provider: 'projects/462962855097/locations/global/workloadIdentityPools/github/providers/my-repo'
-      
+          workload_identity_provider: '${{secrets.WIF_PROVIDER}}'
+          service_account: '${{secrets.SA_EMAIL}}'
