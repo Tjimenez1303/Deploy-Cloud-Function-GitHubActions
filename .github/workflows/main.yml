@@ -25,6 +25,6 @@ jobs:
         id: 'deploy-function'
         uses: 'google-github-actions/deploy-cloud-functions@v2'
         with:
-          name: 'myFunction'
+          name: 'function-deploy-prueba'
           runtime: 'nodejs20'
           entry_point: 'myFunctionVS'
