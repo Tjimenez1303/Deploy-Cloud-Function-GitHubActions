@@ -20,3 +20,10 @@ jobs:
         with:
           workload_identity_provider: '${{secrets.WIF_PROVIDER}}'
           service_account: '${{secrets.SA_EMAIL}}'
+
+      - name: 'Deploy Cloud Function'
+        id: 'deploy-function'
+        uses: 'google-github-actions/deploy-cloud-functions@v2'
+        with:
+          name: 'function-deploy-prueba'
+          runtime: 'nodejs20'
