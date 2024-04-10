@@ -30,8 +30,8 @@ jobs:
         version: '>= 363.0.0'
     - name: 'Use gcloud CLI'
       run: 'gcloud info' 
-    - name: Install JS dependencies
+    - name: Install Python dependencies
       run: |
-        npm install
+        pip install -r requirements.txt
     - name: 'Deploy a gen 2 cloud function'
-      run: 'gcloud functions deploy test-functionv2 --gen2 --runtime=nodejs20 --region=us-central1 --trigger-http --entry-point=handle --memory=256MB --timeout=60s'
+      run: 'gcloud functions deploy test-function --gen2 --runtime=python310 --region=asia-south1 --trigger-http --entry-point=hello_world --memory=256MB --timeout=60s'
